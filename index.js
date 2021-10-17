@@ -35,7 +35,7 @@ const HolidayPlanner = (period) => {
   let endVacationMonth;
   let vacationMonths;
 
-  // Tarkistetaan onko käyttäjän antama ajanjakso oikea, ja määritellään alku- ja loppukuukausi
+  // Tarkistetaan onko käyttäjän antama ajanjakso kronologisessa järjestyksessä, ja määritellään alku- ja loppukuukausi
   if (isBefore(new Date(interval[0]), new Date(interval[1]))) {
     vacationMonths = eachMonthOfInterval({
       start: new Date(interval[0]),
@@ -61,7 +61,7 @@ const HolidayPlanner = (period) => {
   if (daysInPeriod > 50) {
     return "Loman pituus saa olla enintään 50 päivää";
   } else if (isAfter(new Date(interval[0]), new Date(interval[1]))) {
-    return "Päivämäärät ovat väärässä järjestyksessä";
+    return "Päivämäärät ovat väärässä kronologisessa järjestyksessä";
   } else if (startVacationMonth < 4 && endVacationMonth >= 4) {
     return "Koko ajanjakson on oltava saman loma-ajan sisällä, joka alkaa huhtikuun 1. päivänä ja päättyy ensi vuoden 31. maaliskuuta";
   } else {
@@ -95,7 +95,7 @@ const HolidayPlanner = (period) => {
     let amountOfSundaysInPeriod = sundaysInPeriod.filter(Boolean).length;
     console.log(amountOfSundaysInPeriod + " sunnuntaita ajanjaksossa");
 
-    // Käytetyt päivät = Kaikki päivät - (juhlapäivät + sunnuntait)
+    // Käytettävät lomapäivät = Kaikki päivät - (juhlapäivät + sunnuntait)
     usedDays =
       daysInPeriod - (amountOfHolidaysInPeriod + amountOfSundaysInPeriod);
 
@@ -104,6 +104,8 @@ const HolidayPlanner = (period) => {
 };
 
 // HUOM. päivämäärät mudossa MM.DD.YYYY - MM.DD.YYYY
-let usedDays = HolidayPlanner("3.2.2020 - 3.20.2020");
+let usedDaysProper = HolidayPlanner("3.2.2020 - 3.20.2020");
+//let usedDaysTooLong = HolidayPlanner("6.2.2020 - 8.20.2020");
+//let usedDaysWrongDirection = HolidayPlanner("9.2.2020 - 8.20.2020");
 
-console.log(usedDays);
+console.log(usedDaysProper);
